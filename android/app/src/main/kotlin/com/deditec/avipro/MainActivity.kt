@@ -1,4 +1,4 @@
-package com.example.codornices
+package com.deditec.avipro
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -33,10 +33,25 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 80),
-
-            //TODO ; TEXTO
-
+            SizedBox(height: 100),
+            Container(
+              child: MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  disabledColor: Colors.grey,
+                  elevation: 0,
+                  color: Colors.deepPurple,
+                  child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                      child: Text(
+                        'Salir',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                  onPressed: () async {
+                    Navigator.pushReplacementNamed(context, LoginPage.route);
+                  }),
+            ),
             Container(
               child: Text('MENU',
                   style: TextStyle(
@@ -45,19 +60,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   )),
             ),
             SizedBox(height: 30),
-
-            //TODO : IMAGEN
             Container(
               child: Image(
                 image: AssetImage('assets/codornis.png'),
               ),
             ),
-
-            //TODO : METER LO QUE ES USUARIO
-
-            //TODO : METER LO QUE ES CONTRASEÑA
             SizedBox(height: 30),
-
             MaterialButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -73,7 +81,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, 'home');
                 }),
-
             MaterialButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),

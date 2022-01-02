@@ -46,6 +46,26 @@ dev_dependencies:
   change_app_package_name: ^1.0.0 #para cambiar el nombre de nuestro paquete metemos el siguiente comando : flutter pub run change_app_package_name:main com.deditec.opezam
 
 
+
+
+flutter_native_splash:
+  #image: assets/logo.png
+  background_image: assets/logo.png
+  #color: "#42a5f5"
+  android: true
+  ios: true
+  android_gravity: center
+  ios_content_mode: center
+
+flutter_icons:
+  ios: true
+  remove_alpha_ios: true
+  android: true
+  image_path_ios: "assets/logo.png"
+  image_path_android: "assets/logo.png"
+
+
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
