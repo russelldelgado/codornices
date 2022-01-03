@@ -1,6 +1,8 @@
+import 'package:codornices/models/usuario_model.dart';
 import 'package:codornices/pages/home_page.dart';
 import 'package:codornices/pages/loginRegister/register_page.dart';
 import 'package:codornices/services/sqflite/dbGanvapp.dart';
+import 'package:codornices/shared_preferences/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,16 +15,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late String user;
-  late String password;
+  late Usuario usuario;
   late bool cargando;
+  late GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    user = '';
-    password = '';
+    _formKey = GlobalKey<FormState>();
+    usuario = Usuario();
     cargando = false;
   }
 
@@ -62,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 30),
               child: Form(
+                key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   children: [
@@ -72,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: 'duvan.duvan@gmail.com',
                           labelText: 'Ingrese usuario',
                           prefixIcon: Icons.alternate_email_rounded),
-                      onChanged: (value) => user = value,
+                      onChanged: (value) => usuario.user = value,
                       validator: (value) {
                         String pattern =
                             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -92,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: '*****',
                           labelText: 'Ingrese contraseña',
                           prefixIcon: Icons.lock_outline),
-                      onChanged: (value) => password = value,
+                      onChanged: (value) => usuario.password = value,
                       validator: (value) {
                         return (value != null && value.length >= 6)
                             ? null
@@ -123,26 +125,33 @@ class _LoginPageState extends State<LoginPage> {
                     ? null
                     : () async {
                         FocusScope.of(context).unfocus();
-
-                        //TODO : CONECTO A LA BASE DE DATOS Y TRAIGO EL USUARIO LE PASO EL USUARIO Y LA CONTRASEÑA
-                        // const usuario = DBAVIPRO().recuperarUsuario(id)
+                        if (!(_formKey.currentState?.validate() ?? false)) {
+                          return;
+                        }
+                        _formKey.currentState!.save();
 
                         cargando = true;
 
-                        //TODO  : COMPROVAMOS QUE EL USAURIO Y LA CONTRASEÑA SEAN CORRECTOS Y SI ES ASI LO LLEVAMOS A LA HOME PAGE
+                        //TODO : CONECTO A LA BASE DE DATOS Y TRAIGO EL USUARIO LE PASO EL USUARIO Y LA CONTRASEÑA
+                        Usuario? usuarioRecuperado = await DBAVIPRO
+                            .recuperarUsuarioLogin(usuario: usuario);
+                        print('usuario para login');
+                        print(usuarioRecuperado);
 
-                        const error = null;
-
-                        if (error == null) {
-                          Navigator.pushReplacementNamed(
-                              context, HomePage.route);
-                        } else {
-                          // TODO: mostrar error en pantalla
-                          // print( errorMessage );
+                        if (usuarioRecuperado == null) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("Usuario o contraseña invalido")));
                           cargando = false;
+                        } else {
+                          usuario = usuarioRecuperado;
+                          print(usuario);
+                          Preferencias().userIdgetSet = usuarioRecuperado.id!;
+                          Navigator.pushReplacementNamed(
+                              context, HomePage.route);
                         }
+                        setState(() {
+                          cargando = false;
+                        });
                       }),
 
             //TODO : BOTON REGISTRE

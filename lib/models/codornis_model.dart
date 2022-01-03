@@ -8,6 +8,7 @@ class Codornis {
   double? canitdadAlimento;
   int? huevos;
   int? avesMuertas;
+  int userId;
 
   Codornis({
     this.id,
@@ -17,6 +18,7 @@ class Codornis {
     this.canitdadAlimento,
     this.huevos,
     this.avesMuertas,
+    required this.userId,
   });
 
   Codornis copyWith({
@@ -27,6 +29,7 @@ class Codornis {
     double? canitdadAlimento,
     int? huevos,
     int? avesMuertas,
+    int? userId,
   }) {
     return Codornis(
       id: id ?? this.id,
@@ -36,6 +39,7 @@ class Codornis {
       canitdadAlimento: canitdadAlimento ?? this.canitdadAlimento,
       huevos: huevos ?? this.huevos,
       avesMuertas: avesMuertas ?? this.avesMuertas,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -48,18 +52,20 @@ class Codornis {
       'canitdadAlimento': canitdadAlimento,
       'huevos': huevos,
       'avesMuertas': avesMuertas,
+      'userId': userId,
     };
   }
 
   factory Codornis.fromMap(Map<String, dynamic> map) {
     return Codornis(
-      id: map['id']?.toInt() ?? 0,
-      semana: map['semana'] ?? '',
-      numeroAves: map['numeroAves']?.toInt() ?? 0,
-      alimento: map['alimento'] ?? '',
-      canitdadAlimento: map['canitdadAlimento']?.toDouble() ?? 0.0,
-      huevos: map['huevos']?.toInt() ?? 0,
-      avesMuertas: map['avesMuertas']?.toInt() ?? 0,
+      id: map['id']?.toInt(),
+      semana: map['semana'],
+      numeroAves: map['numeroAves']?.toInt(),
+      alimento: map['alimento'],
+      canitdadAlimento: map['canitdadAlimento']?.toDouble(),
+      huevos: map['huevos']?.toInt(),
+      avesMuertas: map['avesMuertas']?.toInt(),
+      userId: map['userId']?.toInt() ?? 0,
     );
   }
 
@@ -70,7 +76,7 @@ class Codornis {
 
   @override
   String toString() {
-    return 'Codornis(id: $id, semana: $semana, numeroAves: $numeroAves, alimento: $alimento, canitdadAlimento: $canitdadAlimento, huevos: $huevos, avesMuertas: $avesMuertas)';
+    return 'Codornis(id: $id, semana: $semana, numeroAves: $numeroAves, alimento: $alimento, canitdadAlimento: $canitdadAlimento, huevos: $huevos, avesMuertas: $avesMuertas, userId: $userId)';
   }
 
   @override
@@ -84,7 +90,8 @@ class Codornis {
         other.alimento == alimento &&
         other.canitdadAlimento == canitdadAlimento &&
         other.huevos == huevos &&
-        other.avesMuertas == avesMuertas;
+        other.avesMuertas == avesMuertas &&
+        other.userId == userId;
   }
 
   @override
@@ -95,6 +102,7 @@ class Codornis {
         alimento.hashCode ^
         canitdadAlimento.hashCode ^
         huevos.hashCode ^
-        avesMuertas.hashCode;
+        avesMuertas.hashCode ^
+        userId.hashCode;
   }
 }

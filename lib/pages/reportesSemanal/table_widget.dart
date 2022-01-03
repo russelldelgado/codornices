@@ -1,4 +1,5 @@
 import 'package:codornices/models/codornis_model.dart';
+import 'package:codornices/shared_preferences/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
 class TableExample extends StatefulWidget {
@@ -29,6 +30,7 @@ class TableExampleState extends State<TableExample> {
         huevos: index * 2,
         numeroAves: 30,
         semana: DateTime.now().toLocal().toString().split(' ').first,
+        userId: Preferencias().userIdget,
       );
     });
   }

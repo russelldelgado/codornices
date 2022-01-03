@@ -1,6 +1,7 @@
 import 'package:codornices/pages/loginRegister/login_page.dart';
 import 'package:codornices/pages/registroDiario/registro_diario_page.dart';
 import 'package:codornices/pages/reportesSemanal/reportes_semanal_page.dart';
+import 'package:codornices/shared_preferences/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -55,6 +56,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               style: TextStyle(color: Colors.white),
                             )),
                         onPressed: () async {
+                          Preferencias().userIdgetSet = 0;
+
                           Navigator.pushReplacementNamed(
                               context, LoginPage.route);
                         }),

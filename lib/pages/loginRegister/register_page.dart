@@ -1,5 +1,8 @@
+import 'package:codornices/models/usuario_model.dart';
 import 'package:codornices/pages/home_page.dart';
 import 'package:codornices/pages/loginRegister/login_page.dart';
+import 'package:codornices/services/sqflite/dbGanvapp.dart';
+import 'package:codornices/shared_preferences/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -12,15 +15,16 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  late String user;
-  late String password;
+  late Usuario usuario;
   late bool cargando;
+  late GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
+    _formKey = GlobalKey<FormState>();
+
+    usuario = Usuario();
     super.initState();
-    user = '';
-    password = '';
     cargando = false;
   }
 
@@ -60,6 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 30),
               child: Form(
+                key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   children: [
@@ -70,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: 'duvan.duvan@gmail.com',
                           labelText: 'Ingrese usuario',
                           prefixIcon: Icons.alternate_email_rounded),
-                      onChanged: (value) => user = value,
+                      onChanged: (value) => usuario.user = value,
                       validator: (value) {
                         String pattern =
                             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -90,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: '*****',
                           labelText: 'Ingrese contraseña',
                           prefixIcon: Icons.lock_outline),
-                      onChanged: (value) => password = value,
+                      onChanged: (value) => usuario.password = value,
                       validator: (value) {
                         return (value != null && value.length >= 6)
                             ? null
@@ -103,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
 
-            //TODO : BOTON LOGIN
+            //TODO : BOTON Registro
 
             MaterialButton(
                 shape: RoundedRectangleBorder(
@@ -122,25 +127,35 @@ class _RegisterPageState extends State<RegisterPage> {
                     : () async {
                         FocusScope.of(context).unfocus();
 
+                        if (!(_formKey.currentState?.validate() ?? false)) {
+                          return;
+                        }
+                        _formKey.currentState!.save();
+                        cargando = true;
                         //TODO : CONECTO A LA BASE DE DATOS Y TRAIGO EL USUARIO LE PASO EL USUARIO Y LA CONTRASEÑA
                         // const usuario = DBAVIPRO().recuperarUsuario(id)
-
-                        cargando = true;
+                        int usuarioGuardado =
+                            await DBAVIPRO.nuevoUsuario(usuario);
+                        print('usuario guardaddo ${usuarioGuardado}');
 
                         //TODO  : COMPROVAMOS QUE EL USAURIO Y LA CONTRASEÑA SEAN CORRECTOS Y SI ES ASI LO LLEVAMOS A LA HOME PAGE
 
-                        const error = null;
-
-                        if (error == null) {
+                        if (usuarioGuardado == null || usuarioGuardado == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  "Sus datos no han sido guardados intentelo de nuevo")));
+                          return;
+                        } else {
+                          Preferencias().userIdgetSet = usuarioGuardado;
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Datos guardados correctamente")));
                           Navigator.pushReplacementNamed(
                               context, HomePage.route);
-                        } else {
-                          // TODO: mostrar error en pantalla
-                          // print( errorMessage );
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Usuario o contraseña invalido")));
                           cargando = false;
                         }
+                        setState(() {
+                          cargando = false;
+                        });
                       }),
 
             //TODO : BOTON login

@@ -1,5 +1,6 @@
 import 'package:codornices/models/codornis_model.dart';
 import 'package:codornices/services/sqflite/dbGanvapp.dart';
+import 'package:codornices/shared_preferences/preferencias_usuario.dart';
 import 'package:codornices/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
   void initState() {
     enable = true;
     _formKey = GlobalKey<FormState>();
-    codornis = new Codornis();
+    codornis = new Codornis(userId: Preferencias().userIdget);
     cargando = false;
     _fechaControlador = TextEditingController();
     _fechaControlador.text =
@@ -40,8 +41,6 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
     if (codornisEditable != null) {
       codornis = codornisEditable as Codornis;
       setState(() {});
-      print(codornisEditable);
-      print(codornis);
     }
 
     return SafeArea(
@@ -116,8 +115,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                       ),
                       _crearFormulario(
                         enable: enable,
-                        initialValue:
-                            codornis?.canitdadAlimento.toString() ?? '',
+                        initialValue: codornis?.numeroAves?.toString() ?? '',
                         dato: "Ingrese la cantidad de aves existentes",
                         validator: (value) {
                           return isDigit(c: value!);
@@ -127,7 +125,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                       ),
                       _crearFormulario(
                         enable: enable,
-                        initialValue: codornis?.alimento.toString() ?? '',
+                        initialValue: codornis?.alimento?.toString() ?? '',
                         dato: "Ingrese el nombre del alimento a suministrar",
                         tipoTeclado: TextInputType.emailAddress,
                         onSave: (value) => codornis?.alimento = value,
@@ -138,7 +136,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                       _crearFormulario(
                           enable: enable,
                           initialValue:
-                              codornis?.canitdadAlimento.toString() ?? '',
+                              codornis?.canitdadAlimento?.toString() ?? '',
                           dato:
                               "Ingrese la cantidad de alimento diario por ave (gr)",
                           onSave: (value) =>
@@ -148,7 +146,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                           }),
                       _crearFormulario(
                           enable: enable,
-                          initialValue: codornis?.huevos.toString() ?? '',
+                          initialValue: codornis?.huevos?.toString() ?? '',
                           dato: "Ingrese la cantidad de huevos recolectados",
                           onSave: (value) =>
                               codornis?.huevos = int.parse(value!),
@@ -157,7 +155,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                           }),
                       _crearFormulario(
                           enable: enable,
-                          initialValue: codornis?.avesMuertas.toString() ?? '',
+                          initialValue: codornis?.avesMuertas?.toString() ?? '',
                           dato: "Ingrese la cantidad de aves perdidas",
                           onSave: (value) =>
                               codornis?.avesMuertas = int.parse(value!),
@@ -257,7 +255,6 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
 
       //TODO :GUARDO DATOSN EN MI BBDD
       int response = await DBAVIPRO.insertarCodornis(codornis!);
-      print(response);
 
       if (response == null || response == 0) {
         ScaffoldMessenger.of(context)
@@ -279,6 +276,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
         cargando = false;
         enable = true;
       });
+      Navigator.pop(context);
     } else {
       ///se actualiza el codornis en el backend
       int response = await DBAVIPRO.updateCodornis(codornis!);
@@ -303,6 +301,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
         cargando = false;
         enable = true;
       });
+      Navigator.pop(context);
     }
   }
 }

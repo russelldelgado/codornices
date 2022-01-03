@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class Usuario {
-  int id;
-  String user;
-  String password;
+  int? id;
+  String? user;
+  String? password;
   Usuario({
-    required this.id,
-    required this.user,
-    required this.password,
+    this.id,
+    this.user,
+    this.password,
   });
 
   Usuario copyWith({

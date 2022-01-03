@@ -66,7 +66,15 @@ class DBAVIPRO {
       await CodornisCRUDDBAVIPRO.recuperarCodornis(id);
 
   static Future<List<Codornis>?> recuperarTodosLosCodorniss() async =>
-      await CodornisCRUDDBAVIPRO.recuperarTodosLosCodorniss();
+      await CodornisCRUDDBAVIPRO.recuperarTodosLosCodornices();
+
+  static Future<List<Codornis>?> recuperar10Codorniss() async =>
+      await CodornisCRUDDBAVIPRO.recuperar10Codornices();
+
+  static Future<List<Codornis>?> recuperarCodornicesEntreFechas(
+          {required String fechaInicio, required String fechaFin}) async =>
+      await CodornisCRUDDBAVIPRO.recuperarCodornicesEntreFechas(
+          fechaInicio: fechaInicio, fechaFin: fechaFin);
 
   static Future<int?> eliminarcodornis(int id) async =>
       await CodornisCRUDDBAVIPRO.eliminarcodornis(id);
@@ -81,6 +89,10 @@ class DBAVIPRO {
 
   static Future<Usuario?> recuperarUsuario(int id) async =>
       await UsuarioCRUDAVIPRO.recuperarUsuario(id);
+
+  static Future<Usuario?> recuperarUsuarioLogin(
+          {required Usuario usuario}) async =>
+      await UsuarioCRUDAVIPRO.recuperarUsuarioLogin(usuario: usuario);
 
   static Future<int> updateUsuario(Usuario usuario) async =>
       await UsuarioCRUDAVIPRO.updateUsuario(usuario);
