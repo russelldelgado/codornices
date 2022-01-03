@@ -1,27 +1,27 @@
 import 'dart:convert';
 
 class Codornis {
-  int id;
-  int semana;
-  int numeroAves;
-  String alimento;
-  double canitdadAlimento;
-  int huevos;
-  int avesMuertas;
+  int? id;
+  String? semana;
+  int? numeroAves;
+  String? alimento;
+  double? canitdadAlimento;
+  int? huevos;
+  int? avesMuertas;
 
   Codornis({
-    required this.id,
-    required this.semana,
-    required this.numeroAves,
-    required this.alimento,
-    required this.canitdadAlimento,
-    required this.huevos,
-    required this.avesMuertas,
+    this.id,
+    this.semana,
+    this.numeroAves,
+    this.alimento,
+    this.canitdadAlimento,
+    this.huevos,
+    this.avesMuertas,
   });
 
   Codornis copyWith({
     int? id,
-    int? semana,
+    String? semana,
     int? numeroAves,
     String? alimento,
     double? canitdadAlimento,
@@ -54,7 +54,7 @@ class Codornis {
   factory Codornis.fromMap(Map<String, dynamic> map) {
     return Codornis(
       id: map['id']?.toInt() ?? 0,
-      semana: map['semana']?.toInt() ?? 0,
+      semana: map['semana'] ?? '',
       numeroAves: map['numeroAves']?.toInt() ?? 0,
       alimento: map['alimento'] ?? '',
       canitdadAlimento: map['canitdadAlimento']?.toDouble() ?? 0.0,

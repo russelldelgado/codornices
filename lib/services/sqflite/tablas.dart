@@ -2,14 +2,16 @@ import 'package:codornices/services/sqflite/dbhelpers.dart';
 
 String codornis() {
   String codornis = '''
-   CREATE TABLE Codornis(
+   CREATE TABLE ${DBHelpers.tablaCodornis}(
     "${DBHelpers.codornisColumnId}" INTEGER PRIMARY KEY,
-    "${DBHelpers.codornisColumnSemana}" INTEGER,
+    "${DBHelpers.codornisColumnSemana}" TEXT,
     "${DBHelpers.codornisColumnNumeroAves}" INTEGER,
     "${DBHelpers.codornisColumnAlimento}" TEXT,
     "${DBHelpers.codornisColumnCantidadAlimento}" DOUBLE,
     "${DBHelpers.codornisColumnHuevos}" INTEGER,
-    "${DBHelpers.codornisColumnAvesMuertas}" INTEGER
+    "${DBHelpers.codornisColumnAvesMuertas}" INTEGER,
+    "${DBHelpers.codornisColumnUserId}" INTEGER,
+    foreign key(${DBHelpers.codornisColumnUserId}) references ${DBHelpers.tablaUsuario}(${DBHelpers.usuarioColumnId})
   );
   ''';
   return codornis;
@@ -17,7 +19,7 @@ String codornis() {
 
 String usuario() {
   String usuario = '''
-CREATE TABLE Usuario(
+    CREATE TABLE ${DBHelpers.tablaUsuario}(
     "${DBHelpers.usuarioColumnId}" INTEGER PRIMARY KEY,
     "${DBHelpers.usuarioColumnUsername}" TEXT,
     "${DBHelpers.usuarioColumnPassword}" TEXT

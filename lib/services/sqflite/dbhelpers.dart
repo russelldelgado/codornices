@@ -14,4 +14,5 @@ class DBHelpers {
   static const String codornisColumnCantidadAlimento = 'canitdadAlimento';
   static const String codornisColumnHuevos = 'huevos';
   static const String codornisColumnAvesMuertas = 'avesMuertas';
+  static const String codornisColumnUserId = 'userId';
 }
