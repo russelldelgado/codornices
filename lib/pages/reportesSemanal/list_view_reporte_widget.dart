@@ -204,24 +204,27 @@ class BotonEdit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: MaterialButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          disabledColor: Colors.grey,
-          elevation: 0,
-          color: Colors.deepPurple,
-          child: Container(
-              child: Text(
-            'Editar',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.white),
-          )),
-          onPressed: () async {
-            Navigator.pushNamed(context, RegistroDiarioPage.route,
-                arguments: codornis);
-          }),
+    return Container(
+      margin: EdgeInsets.only(right: 20),
+      child: Center(
+        child: MaterialButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            disabledColor: Colors.grey,
+            elevation: 0,
+            color: Colors.deepPurple,
+            child: Container(
+                child: Text(
+              'Editar',
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Colors.white),
+            )),
+            onPressed: () async {
+              Navigator.pushNamed(context, RegistroDiarioPage.route,
+                  arguments: codornis);
+            }),
+      ),
     );
   }
 }

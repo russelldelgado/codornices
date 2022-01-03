@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:codornices/services/sqflite/dbhelpers.dart';
+import 'package:codornices/shared_preferences/preferencias_usuario.dart';
 import 'package:sqflite/sql.dart';
 
 import 'package:codornices/models/codornis_model.dart';
@@ -37,7 +38,11 @@ class CodornisCRUDDBAVIPRO {
 
   static Future<List<Codornis>?> recuperar10Codornices() async {
     final db = await DBAVIPRO.db.database;
-    final codornis = await db.query(DBAVIPRO.tablaCodornis, limit: 20);
+    final codornis = await db.query(DBAVIPRO.tablaCodornis,
+        where: '${DBHelpers.codornisColumnUserId} = ?',
+        whereArgs: [Preferencias().userIdget],
+        limit: 20);
+
     return codornis.isNotEmpty
         ? codornis.map((codornis) => Codornis.fromMap(codornis)).toList()
         : [];
@@ -46,7 +51,7 @@ class CodornisCRUDDBAVIPRO {
   static Future<List<Codornis>?> recuperarCodornicesEntreFechas(
       {required String fechaInicio, required String fechaFin}) async {
     String sql =
-        "SELECT * from ${DBAVIPRO.tablaCodornis} where ${DBHelpers.codornisColumnSemana} >= Datetime('${fechaInicio}') and ${DBHelpers.codornisColumnSemana} <= Datetime('${fechaFin}')";
+        "SELECT * from ${DBAVIPRO.tablaCodornis} where ${DBHelpers.codornisColumnSemana} >= Datetime('${fechaInicio}') and ${DBHelpers.codornisColumnSemana} <= Datetime('${fechaFin}') and ${DBHelpers.codornisColumnUserId} == '${Preferencias().userIdget}'";
     final db = await DBAVIPRO.db.database;
     //final codornis = await db.query(DBAVIPRO.tablaCodornis);
     final codornis = await db.rawQuery(sql);

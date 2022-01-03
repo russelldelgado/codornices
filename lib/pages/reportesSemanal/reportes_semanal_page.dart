@@ -36,7 +36,6 @@ class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
   Future<void> _generateItems() async {
     listaCodornices = await DBAVIPRO.recuperar10Codorniss();
     if (mounted) setState(() {});
-    print(listaCodornices?[0]);
   }
 
   double calcularIndiceDeMortalidad({required List<Codornis> codornices}) {
@@ -50,6 +49,12 @@ class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
     }).toList();
 
     double procentajeMortalidad = (codornicesMuertas / codornicesTotales) * 100;
+
+    if (procentajeMortalidad.isNaN ||
+        procentajeMortalidad.isInfinite ||
+        procentajeMortalidad.isNegative) {
+      return 0.0;
+    }
     return procentajeMortalidad.roundToDouble();
   }
 

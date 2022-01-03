@@ -168,21 +168,45 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                       SizedBox(
                         height: 30,
                       ),
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        disabledColor: Colors.grey,
-                        elevation: 0,
-                        color: Colors.deepPurple,
-                        child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            child: Text(
-                              cargando ? "Espere" : "Guardar datos",
-                              style: TextStyle(color: Colors.white),
-                            )),
-                        onPressed: cargando ? null : _guardarMisDatos,
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MaterialButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            disabledColor: Colors.grey,
+                            elevation: 0,
+                            color: Colors.deepPurple,
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 15),
+                                child: Text(
+                                  cargando ? "Espere" : "Guardar datos",
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                            onPressed: cargando ? null : _guardarMisDatos,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          if (codornis?.id != null)
+                            MaterialButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              disabledColor: Colors.grey,
+                              elevation: 0,
+                              color: Colors.red,
+                              child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 15),
+                                  child: Text(
+                                    cargando ? "Espere" : "Eliminar datos",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                              onPressed: cargando ? null : _EliminarDatos,
+                            ),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -303,5 +327,44 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
       });
       Navigator.pop(context);
     }
+  }
+
+  _EliminarDatos() async {
+    FocusScope.of(context).unfocus();
+
+    if (!(_formKey.currentState?.validate() ?? false)) {
+      return;
+    }
+
+    setState(() {
+      cargando = true;
+      enable = false;
+    });
+
+    _formKey.currentState!.save();
+
+    var response = await DBAVIPRO.eliminarcodornis(codornis!.id!);
+    if (response == null || response == 0) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+            content: Text(
+          'Fallo al eliminar los datos',
+        )));
+      return;
+    } else {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+            content: Text(
+          'Eliminado correctamente',
+        )));
+    }
+    setState(() {
+      cargando = false;
+      enable = true;
+    });
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 }
