@@ -56,35 +56,38 @@ class DBAVIPRO {
   }
 
   //estos métodos me sirven para trabajar directamente con los datos de mi Codornis sin tener que llamar a otra clase distinta de esta
-  Future<int> insertarCodornis(Codornis codornis) async =>
+  static Future<int> insertarCodornis(Codornis codornis) async =>
       await CodornisCRUDDBAVIPRO.insertarCodornis(codornis);
 
-  Future<Codornis?> recuperarCodornis(int id) async =>
+  static Future<int> updateCodornis(Codornis codornis) async =>
+      await CodornisCRUDDBAVIPRO.updateCodornis(codornis);
+
+  static Future<Codornis?> recuperarCodornis(int id) async =>
       await CodornisCRUDDBAVIPRO.recuperarCodornis(id);
 
-  Future<List<Codornis>?> recuperarTodosLosCodorniss() async =>
+  static Future<List<Codornis>?> recuperarTodosLosCodorniss() async =>
       await CodornisCRUDDBAVIPRO.recuperarTodosLosCodorniss();
 
-  Future<int?> eliminarcodornis(int id) async =>
+  static Future<int?> eliminarcodornis(int id) async =>
       await CodornisCRUDDBAVIPRO.eliminarcodornis(id);
 
-  Future<int?> eliminarTodaLaBBDDDeCodornis() async =>
+  static Future<int?> eliminarTodaLaBBDDDeCodornis() async =>
       await CodornisCRUDDBAVIPRO.eliminarTodaLaBBDDDeCodornis();
 
   //ESTOS METODOS SIRVEN PARA TRABAJAR CON LOS DATOS DEL USUARIO
 
-  Future<int> nuevoUsuario(Usuario usuario) async =>
+  static Future<int> nuevoUsuario(Usuario usuario) async =>
       await UsuarioCRUDAVIPRO.nuevoUsuario(usuario);
 
-  Future<Usuario?> recuperarUsuario(int id) async =>
+  static Future<Usuario?> recuperarUsuario(int id) async =>
       await UsuarioCRUDAVIPRO.recuperarUsuario(id);
 
-  Future<int> updateUsuario(Usuario usuario) async =>
+  static Future<int> updateUsuario(Usuario usuario) async =>
       await UsuarioCRUDAVIPRO.updateUsuario(usuario);
 
-  Future<List<Usuario>?> recuperarTodosLosUsuario() async =>
+  static Future<List<Usuario>?> recuperarTodosLosUsuario() async =>
       UsuarioCRUDAVIPRO.recuperarTodosLosUsuario();
 
-  Future<int> deleteTodosUsuarios() async =>
+  static Future<int> deleteTodosUsuarios() async =>
       UsuarioCRUDAVIPRO.deleteTodosUsuarios();
 }

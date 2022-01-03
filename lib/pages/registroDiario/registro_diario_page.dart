@@ -1,4 +1,5 @@
 import 'package:codornices/models/codornis_model.dart';
+import 'package:codornices/services/sqflite/dbGanvapp.dart';
 import 'package:codornices/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,8 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
     codornis = new Codornis();
     cargando = false;
     _fechaControlador = TextEditingController();
-    _fechaControlador.text = DateTime.now().toLocal().toString();
+    _fechaControlador.text =
+        DateTime.now().toLocal().toString().split(' ').first;
 
     super.initState();
   }
@@ -190,7 +192,10 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
         firstDate: new DateTime(DateTime.now().year),
         lastDate: new DateTime(DateTime.now().year + 10));
     if (picked != null) {
-      _fechaControlador.text = picked.toLocal().toString();
+      _fechaControlador.text = picked.toLocal().toString().split(' ').first;
+    } else {
+      _fechaControlador.text =
+          DateTime.now().toLocal().toString().split(' ').first;
     }
   }
 
@@ -240,26 +245,33 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
       ///guardo la codornis en mi base de datos
 
       //TODO :GUARDO DATOSN EN MI BBDD
-      dynamic response = null;
+      int response = await DBAVIPRO.insertarCodornis(codornis!);
+      print(response);
 
-      if (response == null) {
-        setState(() {
-          cargando = false;
-          enable = true;
-        });
+      if (response == null || response == 0) {
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+              content: Text(
+            'Fallo al guardar los datos',
+          )));
+      } else {
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
               content: Text(
             'Guardado correctamente',
           )));
-        return;
       }
+      setState(() {
+        cargando = false;
+        enable = true;
+      });
     } else {
       ///se actualiza el codornis en el backend
-      dynamic response = null;
+      int response = await DBAVIPRO.updateCodornis(codornis!);
 
-      if (response == null) {
+      if (response == null || response == 0) {
         setState(() {
           cargando = false;
           enable = true;
@@ -268,9 +280,16 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
               content: Text(
-            'Actualizado correctamente',
+            'Fallo al guardar los datos',
           )));
         return;
+      } else {
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+              content: Text(
+            'Actualizado correctamente',
+          )));
       }
     }
   }

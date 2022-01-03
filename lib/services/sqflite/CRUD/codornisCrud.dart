@@ -19,12 +19,19 @@ class CodornisCRUDDBAVIPRO {
     return codornis.isNotEmpty ? Codornis.fromMap(codornis.first) : null;
   }
 
+  static Future<int> updateCodornis(Codornis codornis) async {
+    final db = await DBAVIPRO.db.database;
+    final response = db.update(DBAVIPRO.tablaCodornis, codornis.toMap(),
+        where: "id = ? ", whereArgs: [codornis.id]);
+    return response;
+  }
+
   static Future<List<Codornis>?> recuperarTodosLosCodorniss() async {
     final db = await DBAVIPRO.db.database;
     final codornis = await db.query(DBAVIPRO.tablaCodornis);
     return codornis.isNotEmpty
         ? codornis.map((codornis) => Codornis.fromMap(codornis)).toList()
-        : null;
+        : [];
   }
 
   static Future<int?> eliminarcodornis(int id) async {

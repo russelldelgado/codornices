@@ -28,7 +28,7 @@ class TableExampleState extends State<TableExample> {
         canitdadAlimento: index * 100.0,
         huevos: index * 2,
         numeroAves: 30,
-        semana: DateTime.now().toLocal().toString().split('-').first,
+        semana: DateTime.now().toLocal().toString().split(' ').first,
       );
     });
   }

@@ -1,5 +1,6 @@
 import 'package:codornices/models/codornis_model.dart';
 import 'package:codornices/pages/reportesSemanal/list_view_reporte_widget.dart';
+import 'package:codornices/services/sqflite/dbGanvapp.dart';
 import 'package:flutter/material.dart';
 
 class ReporteSemanalPage extends StatefulWidget {
@@ -12,30 +13,18 @@ class ReporteSemanalPage extends StatefulWidget {
 }
 
 class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
-  late List<Codornis> listaCodornices;
+  late List<Codornis>? listaCodornices;
 
   @override
   void initState() {
-    listaCodornices = _generateItems();
+    listaCodornices = [];
+    _generateItems();
     super.initState();
   }
 
-  List<Codornis> _generateItems() {
-    return List.generate(10, (int index) {
-      return Codornis(
-        id: index,
-        alimento: 'Pienso',
-        avesMuertas: 10,
-        canitdadAlimento: index * 100.0,
-        huevos: index * 2,
-        numeroAves: 100,
-        semana: DateTime.now().toLocal().toString().split('-')[1] +
-            '-' +
-            DateTime.now().toLocal().toString().split('-')[2].split(' ').first +
-            '-' +
-            DateTime.now().toLocal().toString().split('-').first,
-      );
-    });
+  Future<void> _generateItems() async {
+    listaCodornices = await DBAVIPRO.recuperarTodosLosCodorniss();
+    if (mounted) setState(() {});
   }
 
   double calcularIndiceDeMortalidad({required List<Codornis> codornices}) {
@@ -51,8 +40,6 @@ class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
     print(codornicesMuertas);
     double procentajeMortalidad = (codornicesMuertas / codornicesTotales) * 100;
     print(procentajeMortalidad);
-    print(codornicesMuertas % codornicesTotales);
-    print(codornicesTotales % codornicesMuertas);
     return procentajeMortalidad;
   }
 
@@ -106,7 +93,7 @@ class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
                 ),
               ),
               Text(
-                  'Indice de mortalidad ${calcularIndiceDeMortalidad(codornices: listaCodornices)}%'),
+                  'Indice de mortalidad ${calcularIndiceDeMortalidad(codornices: listaCodornices!)}%'),
             ]),
             SizedBox(height: 20),
             Expanded(
@@ -114,7 +101,7 @@ class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
                 itemCount: 1,
                 itemBuilder: (context, index) {
                   return ListReporteSemanal(
-                    codornices: listaCodornices,
+                    codornices: listaCodornices!,
                   );
                 },
               ),
