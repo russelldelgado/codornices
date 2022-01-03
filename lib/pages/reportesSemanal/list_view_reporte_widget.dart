@@ -219,7 +219,8 @@ class BotonEdit extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           )),
           onPressed: () async {
-            Navigator.pushNamed(context, RegistroDiarioPage.route);
+            Navigator.pushNamed(context, RegistroDiarioPage.route,
+                arguments: codornis);
           }),
     );
   }

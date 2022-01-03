@@ -35,6 +35,15 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
 
   @override
   Widget build(BuildContext context) {
+    final codornisEditable = ModalRoute.of(context)!.settings.arguments;
+
+    if (codornisEditable != null) {
+      codornis = codornisEditable as Codornis;
+      setState(() {});
+      print(codornisEditable);
+      print(codornis);
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -107,7 +116,8 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                       ),
                       _crearFormulario(
                         enable: enable,
-                        // controller: _nombreControlador,
+                        initialValue:
+                            codornis?.canitdadAlimento.toString() ?? '',
                         dato: "Ingrese la cantidad de aves existentes",
                         validator: (value) {
                           return isDigit(c: value!);
@@ -117,7 +127,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                       ),
                       _crearFormulario(
                         enable: enable,
-                        //controller: _emailControlador,
+                        initialValue: codornis?.alimento.toString() ?? '',
                         dato: "Ingrese el nombre del alimento a suministrar",
                         tipoTeclado: TextInputType.emailAddress,
                         onSave: (value) => codornis?.alimento = value,
@@ -127,7 +137,8 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                       ),
                       _crearFormulario(
                           enable: enable,
-                          //controller: _telefonoControlador,
+                          initialValue:
+                              codornis?.canitdadAlimento.toString() ?? '',
                           dato:
                               "Ingrese la cantidad de alimento diario por ave (gr)",
                           onSave: (value) =>
@@ -137,7 +148,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                           }),
                       _crearFormulario(
                           enable: enable,
-                          //controller: _telefonoControlador,
+                          initialValue: codornis?.huevos.toString() ?? '',
                           dato: "Ingrese la cantidad de huevos recolectados",
                           onSave: (value) =>
                               codornis?.huevos = int.parse(value!),
@@ -146,7 +157,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                           }),
                       _crearFormulario(
                           enable: enable,
-                          //controller: _telefonoControlador,
+                          initialValue: codornis?.avesMuertas.toString() ?? '',
                           dato: "Ingrese la cantidad de aves perdidas",
                           onSave: (value) =>
                               codornis?.avesMuertas = int.parse(value!),
@@ -262,6 +273,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
               content: Text(
             'Guardado correctamente',
           )));
+        codornis?.id = response;
       }
       setState(() {
         cargando = false;
@@ -272,10 +284,6 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
       int response = await DBAVIPRO.updateCodornis(codornis!);
 
       if (response == null || response == 0) {
-        setState(() {
-          cargando = false;
-          enable = true;
-        });
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
@@ -291,6 +299,10 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
             'Actualizado correctamente',
           )));
       }
+      setState(() {
+        cargando = false;
+        enable = true;
+      });
     }
   }
 }

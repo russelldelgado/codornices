@@ -36,11 +36,9 @@ class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
     codornices.map((e) {
       codornicesTotales += e.numeroAves ?? 0;
     }).toList();
-    print(codornicesTotales);
-    print(codornicesMuertas);
+
     double procentajeMortalidad = (codornicesMuertas / codornicesTotales) * 100;
-    print(procentajeMortalidad);
-    return procentajeMortalidad;
+    return procentajeMortalidad.roundToDouble();
   }
 
   @override
