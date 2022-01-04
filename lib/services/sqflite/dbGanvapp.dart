@@ -42,8 +42,6 @@ class DBAVIPRO {
         path,
         //version , solo hay que actualizarla cuando vayamos a cambiar tablas en nuestra bbdd
         version: 1,
-        //esto es lo que pasa cuando se abre nuestra bbdd
-
         //esto es lo que pasa cuando se crea nuestra bbdd en este paso crearemos todas las tablas
         onCreate: (db, version) async {
           await db.execute(codornis());
@@ -54,6 +52,11 @@ class DBAVIPRO {
           await db.getVersion();
         });
   }
+
+
+
+
+
 
   //estos métodos me sirven para trabajar directamente con los datos de mi Codornis sin tener que llamar a otra clase distinta de esta
   static Future<int> insertarCodornis(Codornis codornis) async =>

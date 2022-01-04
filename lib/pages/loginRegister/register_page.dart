@@ -141,14 +141,19 @@ class _RegisterPageState extends State<RegisterPage> {
                         //TODO  : COMPROVAMOS QUE EL USAURIO Y LA CONTRASEÑA SEAN CORRECTOS Y SI ES ASI LO LLEVAMOS A LA HOME PAGE
 
                         if (usuarioGuardado == null || usuarioGuardado == 0) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  "Sus datos no han sido guardados intentelo de nuevo")));
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content: Text(
+                                    "Sus datos no han sido guardados intentelo de nuevo")));
                           return;
                         } else {
                           Preferencias().userIdgetSet = usuarioGuardado;
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Datos guardados correctamente")));
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content:
+                                    Text("Datos guardados correctamente")));
                           Navigator.pushReplacementNamed(
                               context, HomePage.route);
                           cargando = false;

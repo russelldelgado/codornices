@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                         print(usuarioRecuperado);
 
                         if (usuarioRecuperado == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context)..removeCurrentSnackBar()..showSnackBar(SnackBar(
                               content: Text("Usuario o contraseña invalido")));
                           cargando = false;
                         } else {
