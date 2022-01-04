@@ -48,14 +48,15 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        manifestPlaceholders = [hostName:"www.example.com"]
         applicationId "com.deditec.avipro"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        buildConfigField("String", "BUILD_TIME", "\"0\"")
+        resValue("string", "build_time", "0")
     }
-
     signingConfigs {
        release {
            keyAlias keystoreProperties['keyAlias']
@@ -64,14 +65,14 @@ android {
            storePassword keystoreProperties['storePassword']
        }
    }
-
     buildTypes {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-           
         }
+
     }
+ 
 }
 
 flutter {

@@ -3,6 +3,7 @@ import 'package:codornices/pages/home_page.dart';
 import 'package:codornices/pages/loginRegister/register_page.dart';
 import 'package:codornices/services/sqflite/dbGanvapp.dart';
 import 'package:codornices/shared_preferences/preferencias_usuario.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   late Usuario usuario;
   late bool cargando;
   late GlobalKey<FormState> _formKey;
+  final bool isProduction = bool.fromEnvironment('dart.vm.product');
 
   @override
   void initState() {
@@ -71,7 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                       autocorrect: false,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecorations.authInputDecoration(
-                          hintText: 'duvan.duvan@gmail.com',
+                          hintText: isProduction
+                              ? 'produccion.produccion@gmail.com'
+                              : 'debug.debug@gmail.com',
                           labelText: 'Ingrese usuario',
                           prefixIcon: Icons.alternate_email_rounded),
                       onChanged: (value) => usuario.user = value,

@@ -28,7 +28,9 @@
               android:resource="@drawable/launch_background"
               />
             <intent-filter>
+                <data android:scheme="https" android:host="${hostName}"/>
                 <action android:name="android.intent.action.MAIN"/>
+                <action android:name="${applicationId}"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

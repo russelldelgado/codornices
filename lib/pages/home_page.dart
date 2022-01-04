@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:codornices/pages/loginRegister/login_page.dart';
 import 'package:codornices/pages/registroDiario/registro_diario_page.dart';
 import 'package:codornices/pages/reportesSemanal/reportes_semanal_page.dart';
 import 'package:codornices/shared_preferences/preferencias_usuario.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -19,6 +22,56 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    print('IMPRIMIENDO DATOS DE MI PLAFORM');
+    print('------------------- VERSION -------------------');
+    print(Platform.version);
+    print('------------------- ENVIROMENT KEY -------------------');
+
+    print(Platform.environment.keys);
+    print('------------------- ENVIROMENT VAKLUES -------------------');
+
+    print(Platform.environment.values);
+    print('------------------- ENVIROMENT TOSTRING -------------------');
+
+    print(Platform.environment.toString());
+    print('------------------- Platform.operatingSystem -------------------');
+
+    String os = Platform.operatingSystem;
+    print(os);
+    // Or, use a predicate getter.
+    if (Platform.isMacOS) {
+      print('is a Mac');
+    } else {
+      print('is not a Mac');
+    }
+    print('------------------- Local name -------------------');
+
+    print(Platform.localeName);
+    print('------------------- Local host name -------------------');
+
+    print(Platform.localHostname);
+
+    print('------------------- number of process -------------------');
+
+    print(Platform.numberOfProcessors);
+    print('------------------- package config -------------------');
+
+    print(Platform.packageConfig);
+    print(
+        '------------------- String from enviroment is declared-------------------');
+    var isDeclared = const String.fromEnvironment("maybeDeclared") != null;
+    print(isDeclared);
+    print(String.fromEnvironment("maybeDeclared"));
+
+    print('------------------- is production-------------------');
+    const bool isProduction = bool.fromEnvironment('dart.vm.product');
+    print(isProduction);
+    print('------------------- K profile Mode-------------------');
+    print(kProfileMode);
+    print('------------------- K debug Mode-------------------');
+    print(kDebugMode);
+    print('------------------- K isweb Mode-------------------');
+    print(kIsWeb);
   }
 
   @override
