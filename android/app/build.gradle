@@ -48,14 +48,11 @@ android {
     }
 
     defaultConfig {
-        manifestPlaceholders = [hostName:"www.example.com"]
         applicationId "com.deditec.avipro"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-        buildConfigField("String", "BUILD_TIME", "\"0\"")
-        resValue("string", "build_time", "0")
+        versionCode 3
+        versionName '3.0'
     }
     signingConfigs {
        release {
