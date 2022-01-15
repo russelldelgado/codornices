@@ -50,8 +50,11 @@ class CodornisCRUDDBAVIPRO {
 
   static Future<List<Codornis>?> recuperarCodornicesEntreFechas(
       {required String fechaInicio, required String fechaFin}) async {
+    print(fechaInicio);
+    print(fechaFin);
+    print(Preferencias().userIdget);
     String sql =
-        "SELECT * from ${DBAVIPRO.tablaCodornis} where ${DBHelpers.codornisColumnSemana} >= Datetime('${fechaInicio}') and ${DBHelpers.codornisColumnSemana} <= Datetime('${fechaFin}') and ${DBHelpers.codornisColumnUserId} == '${Preferencias().userIdget}'";
+        "SELECT * from ${DBAVIPRO.tablaCodornis} where ${DBHelpers.codornisColumnSemana} >= '${fechaInicio}' and ${DBHelpers.codornisColumnSemana} <= '${fechaFin}' and ${DBHelpers.codornisColumnUserId} == '${Preferencias().userIdget}'";
     final db = await DBAVIPRO.db.database;
     //final codornis = await db.query(DBAVIPRO.tablaCodornis);
     final codornis = await db.rawQuery(sql);
