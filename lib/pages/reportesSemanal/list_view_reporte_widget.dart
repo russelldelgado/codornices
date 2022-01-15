@@ -6,6 +6,7 @@ import 'package:codornices/pages/registroDiario/registro_diario_page.dart';
 
 class ListReporteSemanal extends StatefulWidget {
   final List<Codornis> codornices;
+
   ListReporteSemanal({
     Key? key,
     required this.codornices,
@@ -16,10 +17,38 @@ class ListReporteSemanal extends StatefulWidget {
 }
 
 class _ListReporteSemanalState extends State<ListReporteSemanal> {
+  final ScrollController _controller1 = ScrollController();
+  final ScrollController _controller2 = ScrollController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller1.addListener(_scrollListener);
+    _controller2.addListener(_scrollListener);
+  }
+
+  _scrollListener() {
+    if (_controller1.position.pixels.toInt() <=
+        _controller1.position.pixels.toInt() + 10) {
+      print('moviendo controller');
+      _controller2.animateTo(_controller1.offset,
+          duration: Duration(milliseconds: 100),
+          curve: Curves.fastLinearToSlowEaseIn);
+    } else if (_controller2.position.pixels.toInt() <=
+        _controller2.position.pixels.toInt() + 1) {
+      print('moviendo controller');
+      _controller1.animateTo(_controller2.offset,
+          duration: Duration(milliseconds: 50),
+          curve: Curves.fastLinearToSlowEaseIn);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      RowPersonal(),
+      RowPersonal(
+        controller: _controller1,
+      ),
       Container(
           height: 500,
           child: ListView.builder(
@@ -27,6 +56,7 @@ class _ListReporteSemanalState extends State<ListReporteSemanal> {
             itemBuilder: (context, index) {
               return RowPersonalData(
                 codornis: widget.codornices[index],
+                controller: _controller2,
               );
             },
           ))
@@ -35,14 +65,16 @@ class _ListReporteSemanalState extends State<ListReporteSemanal> {
 }
 
 class RowPersonal extends StatelessWidget {
-  const RowPersonal({Key? key}) : super(key: key);
+  final ScrollController controller;
+  const RowPersonal({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 40,
       child: ListView.builder(
-        itemCount: 7,
+        controller: controller,
+        itemCount: 8,
         itemBuilder: (context, index) {
           if (index == 0) {
             return ContainerTitleReporteSemanal(
@@ -70,6 +102,14 @@ class RowPersonal extends StatelessWidget {
             );
           } else if (index == 6) {
             return ContainerTitleReporteSemanal(
+              titulo: "Precio",
+            );
+          } else if (index == 7) {
+            return ContainerTitleReporteSemanal(
+              titulo: "Huevos no viables",
+            );
+          } else if (index == 8) {
+            return ContainerTitleReporteSemanal(
               titulo: "Editar",
             );
           }
@@ -83,9 +123,12 @@ class RowPersonal extends StatelessWidget {
 
 class RowPersonalData extends StatelessWidget {
   final Codornis codornis;
+  final ScrollController controller;
+
   const RowPersonalData({
     Key? key,
     required this.codornis,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -93,7 +136,8 @@ class RowPersonalData extends StatelessWidget {
     return Container(
       height: 40,
       child: ListView.builder(
-        itemCount: 7,
+        controller: controller,
+        itemCount: 8,
         itemBuilder: (context, index) {
           if (index == 0) {
             return ContainerDataReporteSemanal(
@@ -120,6 +164,14 @@ class RowPersonalData extends StatelessWidget {
               data: codornis.avesMuertas?.toString(),
             );
           } else if (index == 6) {
+            return ContainerDataReporteSemanal(
+              data: '${codornis.precioPorHuevo?.toString()}\$',
+            );
+          } else if (index == 7) {
+            return ContainerDataReporteSemanal(
+              data: codornis.huevosNoViables?.toString(),
+            );
+          } else if (index == 8) {
             return BotonEdit(
               codornis: codornis,
             );
@@ -146,7 +198,7 @@ class ContainerTitleReporteSemanal extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 130,
+          width: 150,
           padding: EdgeInsets.only(left: 10, right: 15),
           child: titulo == null
               ? Container()
@@ -176,7 +228,7 @@ class ContainerDataReporteSemanal extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 130,
+          width: 150,
           padding: EdgeInsets.only(left: 10, right: 15),
           child: data == null
               ? Container(

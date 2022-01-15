@@ -9,6 +9,8 @@ class Codornis {
   int? huevos;
   int? avesMuertas;
   int userId;
+  double? precioPorHuevo;
+  int? huevosNoViables;
 
   Codornis({
     this.id,
@@ -18,6 +20,8 @@ class Codornis {
     this.canitdadAlimento,
     this.huevos,
     this.avesMuertas,
+    this.precioPorHuevo,
+    this.huevosNoViables,
     required this.userId,
   });
 
@@ -30,6 +34,8 @@ class Codornis {
     int? huevos,
     int? avesMuertas,
     int? userId,
+    int? huevosNoViables,
+    double? precioPorHuevo,
   }) {
     return Codornis(
       id: id ?? this.id,
@@ -39,7 +45,9 @@ class Codornis {
       canitdadAlimento: canitdadAlimento ?? this.canitdadAlimento,
       huevos: huevos ?? this.huevos,
       avesMuertas: avesMuertas ?? this.avesMuertas,
+      precioPorHuevo: precioPorHuevo ?? this.precioPorHuevo,
       userId: userId ?? this.userId,
+      huevosNoViables: huevosNoViables ?? this.huevosNoViables,
     );
   }
 
@@ -53,6 +61,8 @@ class Codornis {
       'huevos': huevos,
       'avesMuertas': avesMuertas,
       'userId': userId,
+      'precioPorHuevo': precioPorHuevo,
+      'huevosNoViables': huevosNoViables,
     };
   }
 
@@ -66,6 +76,8 @@ class Codornis {
       huevos: map['huevos']?.toInt(),
       avesMuertas: map['avesMuertas']?.toInt(),
       userId: map['userId']?.toInt() ?? 0,
+      huevosNoViables: map['huevosNoViables']?.toInt() ?? 0,
+      precioPorHuevo: map['precioPorHuevo']?.toDouble() ?? 0,
     );
   }
 
@@ -76,7 +88,7 @@ class Codornis {
 
   @override
   String toString() {
-    return 'Codornis(id: $id, semana: $semana, numeroAves: $numeroAves, alimento: $alimento, canitdadAlimento: $canitdadAlimento, huevos: $huevos, avesMuertas: $avesMuertas, userId: $userId)';
+    return 'Codornis(id: $id, semana: $semana, numeroAves: $numeroAves, alimento: $alimento, canitdadAlimento: $canitdadAlimento, huevos: $huevos, avesMuertas: $avesMuertas, userId: $userId, precioPorHuevo: $precioPorHuevo, huevosNoViables: $huevosNoViables )';
   }
 
   @override
@@ -91,7 +103,9 @@ class Codornis {
         other.canitdadAlimento == canitdadAlimento &&
         other.huevos == huevos &&
         other.avesMuertas == avesMuertas &&
-        other.userId == userId;
+        other.userId == userId &&
+        other.huevosNoViables == huevosNoViables &&
+        other.precioPorHuevo == precioPorHuevo;
   }
 
   @override
@@ -103,6 +117,8 @@ class Codornis {
         canitdadAlimento.hashCode ^
         huevos.hashCode ^
         avesMuertas.hashCode ^
+        precioPorHuevo.hashCode ^
+        huevosNoViables.hashCode ^
         userId.hashCode;
   }
 }

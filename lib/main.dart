@@ -1,4 +1,6 @@
+import 'package:codornices/pages/home_page.dart';
 import 'package:codornices/pages/loginRegister/login_page.dart';
+import 'package:codornices/pages/reportesSemanal/reportes_semanal_page.dart';
 import 'package:codornices/repository/repobbdd.dart';
 import 'package:codornices/routes/routes.dart';
 import 'package:flutter/material.dart';

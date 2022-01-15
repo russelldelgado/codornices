@@ -58,6 +58,41 @@ class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
     return procentajeMortalidad.roundToDouble();
   }
 
+  int calcularTotalHuevosRecolectados({required List<Codornis> codornices}) {
+    int huevosTotales = 0;
+    codornices.map((e) {
+      huevosTotales += e.huevos ?? 0;
+    }).toList();
+    int huevosNoViables = 0;
+    codornices.map((e) {
+      huevosNoViables += e.huevosNoViables ?? 0;
+    }).toList();
+
+    int huevosTotalesRecolectados = huevosTotales - huevosNoViables;
+
+    if (huevosTotalesRecolectados.isNaN ||
+        huevosTotalesRecolectados.isInfinite ||
+        huevosTotalesRecolectados.isNegative) {
+      return 0;
+    }
+    return huevosTotalesRecolectados;
+  }
+
+  double calcularTotalDinero({required List<Codornis> codornices}) {
+    //calcular el precio por huevo / hay que hacer una media por recio
+    //ver cuantos huevos hemos recolectado tienen que ser huevo validos
+    //multiplicar los huevos por el precio
+    double dineroTotal = 0.0;
+    codornices.map((e) {
+      double precioPorHuevo = e.precioPorHuevo ?? 0;
+      int huevosEseDia = (e.huevos ?? 0) - (e.huevosNoViables ?? 0);
+      double dineroTotalRecolectadoEseDia = precioPorHuevo * huevosEseDia;
+      dineroTotal += dineroTotalRecolectadoEseDia;
+    }).toList();
+
+    return dineroTotal;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -114,16 +149,25 @@ class _ReporteSemanalPageState extends State<ReporteSemanalPage> {
               ),
             ),
             SizedBox(height: 20),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               Container(
                 height: 100,
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.3,
                 child: Image(
                   image: AssetImage('assets/codornis.png'),
                 ),
               ),
-              Text(
-                  'Indice de mortalidad ${calcularIndiceDeMortalidad(codornices: listaCodornices!)}%'),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      'Indice de mortalidad ${calcularIndiceDeMortalidad(codornices: listaCodornices!)}%'),
+                  Text(
+                      'Total huevos ${calcularTotalHuevosRecolectados(codornices: listaCodornices!)}'),
+                  Text(
+                      'Total dinero ${calcularTotalDinero(codornices: listaCodornices!)}\$'),
+                ],
+              ),
             ]),
             SizedBox(height: 20),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

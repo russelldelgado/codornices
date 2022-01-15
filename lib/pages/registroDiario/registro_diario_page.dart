@@ -137,8 +137,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                           enable: enable,
                           initialValue:
                               codornis?.canitdadAlimento?.toString() ?? '',
-                          dato:
-                              "Ingrese la cantidad de alimento diario por ave (gr)",
+                          dato: "cantidad de alimento diario por ave (gr)",
                           onSave: (value) =>
                               codornis?.canitdadAlimento = double.parse(value!),
                           validator: (value) {
@@ -159,6 +158,26 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                           dato: "Ingrese la cantidad de aves perdidas",
                           onSave: (value) =>
                               codornis?.avesMuertas = int.parse(value!),
+                          validator: (value) {
+                            return isDigit(c: value!);
+                          }),
+                      _crearFormulario(
+                          enable: enable,
+                          initialValue:
+                              codornis?.huevosNoViables?.toString() ?? '',
+                          dato: "Ingrese la cantidad de huevos no viables",
+                          onSave: (value) =>
+                              codornis?.huevosNoViables = int.parse(value!),
+                          validator: (value) {
+                            return isDigit(c: value!);
+                          }),
+                      _crearFormulario(
+                          enable: enable,
+                          initialValue:
+                              codornis?.precioPorHuevo?.toString() ?? '',
+                          dato: "Ingrese el precio estimado por huevo",
+                          onSave: (value) =>
+                              codornis?.precioPorHuevo = double.parse(value!),
                           validator: (value) {
                             return isDigit(c: value!);
                           }),

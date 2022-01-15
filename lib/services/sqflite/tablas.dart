@@ -11,6 +11,8 @@ String codornis() {
     "${DBHelpers.codornisColumnHuevos}" INTEGER,
     "${DBHelpers.codornisColumnAvesMuertas}" INTEGER,
     "${DBHelpers.codornisColumnUserId}" INTEGER,
+    "${DBHelpers.codornisColumnprecioPorHuevo}" DOUBLE,
+    "${DBHelpers.codornisColumnhuevosNoViables}" INTEGER,
     foreign key(${DBHelpers.codornisColumnUserId}) references ${DBHelpers.tablaUsuario}(${DBHelpers.usuarioColumnId})
   );
   ''';
