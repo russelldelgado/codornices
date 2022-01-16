@@ -3,6 +3,7 @@ import 'package:codornices/services/sqflite/dbGanvapp.dart';
 import 'package:codornices/shared_preferences/preferencias_usuario.dart';
 import 'package:codornices/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class RegistroDiarioPage extends StatefulWidget {
   static const String route = "registroDiario";
@@ -114,6 +115,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                         onSave: (value) => codornis?.semana = value,
                       ),
                       _crearFormulario(
+                        tipoTeclado: TextInputType.number,
                         enable: enable,
                         initialValue: codornis?.numeroAves?.toString() ?? '',
                         dato: "Ingrese la cantidad de aves existentes",
@@ -134,6 +136,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                         },
                       ),
                       _crearFormulario(
+                          tipoTeclado: TextInputType.number,
                           enable: enable,
                           initialValue:
                               codornis?.canitdadAlimento?.toString() ?? '',
@@ -144,6 +147,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                             return isDigit(c: value!);
                           }),
                       _crearFormulario(
+                          tipoTeclado: TextInputType.number,
                           enable: enable,
                           initialValue: codornis?.huevos?.toString() ?? '',
                           dato: "Ingrese la cantidad de huevos recolectados",
@@ -153,6 +157,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                             return isDigit(c: value!);
                           }),
                       _crearFormulario(
+                          tipoTeclado: TextInputType.number,
                           enable: enable,
                           initialValue: codornis?.avesMuertas?.toString() ?? '',
                           dato: "Ingrese la cantidad de aves perdidas",
@@ -162,6 +167,7 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                             return isDigit(c: value!);
                           }),
                       _crearFormulario(
+                          tipoTeclado: TextInputType.number,
                           enable: enable,
                           initialValue:
                               codornis?.huevosNoViables?.toString() ?? '',
@@ -172,6 +178,8 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                             return isDigit(c: value!);
                           }),
                       _crearFormulario(
+                          tipoTeclado:
+                              TextInputType.numberWithOptions(decimal: true),
                           enable: enable,
                           initialValue:
                               codornis?.precioPorHuevo?.toString() ?? '',
@@ -179,7 +187,10 @@ class _RegistroDiarioPageState extends State<RegistroDiarioPage> {
                           onSave: (value) =>
                               codornis?.precioPorHuevo = double.parse(value!),
                           validator: (value) {
-                            return isDigit(c: value!);
+                            if (value!.contains(',')) {
+                              return 'los decimales van con punto 0.20';
+                            }
+                            return isDigit(c: value);
                           }),
                       SizedBox(
                         height: 4,
